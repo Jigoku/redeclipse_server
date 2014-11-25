@@ -1,0 +1,106 @@
+#!/bin/sh
+# slackbuild for redeclipse_server (svn)
+#
+###########################################################################
+#
+# NOTES BEFORE BUILDING:
+#
+# 1.
+# checkout svn version you need, into slackbuild directory, eg;
+#   $ svn co svn://svn.icculus.org/redeclipse -r 6550 .
+#
+# 2.
+# create the user redeclipse/nogroup(99)
+#   # /usr/sbin/useradd -u 220 -g 99 -d /etc/redeclipse -r redeclipse#
+#
+# 3.
+#   # upgradepkg --reinstall /tmp/redeclipse_server*
+#
+# 4. (if required)
+#   # cp /etc/redeclipse/{servinit-example.cfg,servinit.cfg}
+#
+###########################################################################
+#
+# Copyright 2014 Ricky Thomson
+# Copyright 2013 Erik Falor USA
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+
+VERSION=${VERSION:-r6967}
+BUILD=${BUILD:-1}
+TAG=${TAG:-_uf}
+
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) ARCH=i486 ;;
+    arm*) ARCH=arm ;;
+    *) ARCH=$( uname -m ) ;;
+  esac
+fi
+
+
+CWD=$(pwd)
+TMP=${TMP:-/tmp/uf}
+PKG=$TMP/package-redeclipse_server
+OUTPUT=${OUTPUT:-/tmp}
+
+
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i686" ]; then
+  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
+else
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+fi
+
+set -e
+
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $CWD/redeclipse
+
+make -C src INSTDIR=$PKG/opt/redeclipse/bin server install-server
+
+mkdir -p $PKG/etc/{redeclipse,rc.d,cron.d} $PKG/usr/share/doc/
+
+
+install -Dm644 data/config/version.cfg "$PKG/opt/redeclipse/config/version.cfg"
+#install -Dm644 bin/redeclipse_server_native "$PKG/opt/redeclipse/bin/redeclipse_server_native"
+install -Dm644 -g 99 -o redeclipse $CWD/redeclipse/doc/examples/servinit.cfg "$PKG/etc/redeclipse/servinit-example.cfg"
+install -Dm644 doc/man/redeclipse-server.6.am "$PKG/usr/share/doc/redeclipse-server.6.am"
+install -Dm755 redeclipse_server.sh "$PKG/usr/bin/redeclipse_server"
+install -Dm755 $CWD/redeclipse_server.cron "$PKG/etc/cron.d/redeclipse_server"
+install -Dm644 $CWD/rc.redeclipse_server "$PKG/etc/rc.d/rc.redeclipse_server"
+
+sed -i 's,APP_OPTIONS="",APP_OPTIONS="-h/etc/redeclipse -g/var/log/redeclipse.log",' $PKG/usr/bin/redeclipse_server
+sed -i 's,APP_OPTIONS="",APP_OPTIONS="-h/etc/redeclipse -g/var/log/redeclipse.log",' $PKG/usr/bin/redeclipse_server
+sed -i 's,APP_PATH="$(cd "$(dirname "$0")" && pwd)",APP_PATH="/opt/redeclipse",' $PKG/usr/bin/redeclipse_server
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+
+cd $PKG
+/sbin/makepkg -l y -c n $OUTPUT/redeclipse_server-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}

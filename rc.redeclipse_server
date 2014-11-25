@@ -1,0 +1,54 @@
+#!/bin/sh
+# /etc/rc.d/rc.redeclipse_server
+# Red Eclipse game server
+
+USER=redeclipse
+GROUP=99
+LOGFILE=/var/log/redeclipse.log
+RUNFILE=/var/run/redeclipse.pid
+
+function redeclipse_start() {
+  if [[ `/sbin/pidof -s redeclipse_server_{native,i686,x86_64}` ]]; then
+    echo "redeclipse_server appears to already be running?"
+  else
+    touch $LOGFILE
+    chown $USER:$GROUP $LOGFILE
+    su - $USER -c /usr/bin/redeclipse_server  &
+    sleep 1 && /sbin/pidof redeclipse_server_{native,i686,x86_64} > $RUNFILE
+  fi
+}
+
+function redeclipse_stop() {
+  if [[ `/sbin/pidof -s redeclipse_server_{native,i686,x86_64}` ]]; then
+    kill -QUIT $(cat $RUNFILE); rm $RUNFILE;
+  else
+    echo "redeclipse_server isn't running?"
+  fi
+
+
+}
+
+function redeclipse_check() {
+  if [[ ! `/sbin/pidof -s redeclipse_server_{native,i686,x86_64}` ]]; then
+    /etc/rc.d/rc.redeclipse restart
+  fi
+}
+
+case "$1" in
+  start)
+    redeclipse_start
+    ;;
+  stop)
+    redeclipse_stop
+    ;;
+  restart)
+    redeclipse_stop
+    redeclipse_start
+    ;;
+  check)
+    redeclipse_check
+    ;;
+  *)
+  echo "usage: `basename $0` {start|stop|restart|check}"
+esac
+
