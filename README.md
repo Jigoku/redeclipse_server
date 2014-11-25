@@ -12,7 +12,7 @@ of a crash, and an rc script to manage the server.
 Data files are stored in /etc/redeclipse
 Eg; Place your maps into /etc/redeclipse/maps
 
-
+<pre>
 How to deploy:
 
  1.
@@ -35,3 +35,4 @@ How to deploy:
  6.
    # chmod +x /etc/rc.d/rc.redeclipse_server
    # /etc/rc.d/rc.redeclipse_server start
+</pre>
