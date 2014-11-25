@@ -1,26 +1,6 @@
 #!/bin/sh
 # slackbuild for redeclipse_server (svn)
 #
-###########################################################################
-#
-# NOTES BEFORE BUILDING:
-#
-# 1.
-# checkout svn version you need, into slackbuild directory, eg;
-#   $ svn co svn://svn.icculus.org/redeclipse -r 6550 .
-#
-# 2.
-# create the user redeclipse/nogroup(99)
-#   # /usr/sbin/useradd -u 220 -g 99 -d /etc/redeclipse -r redeclipse#
-#
-# 3.
-#   # upgradepkg --reinstall /tmp/redeclipse_server*
-#
-# 4. (if required)
-#   # cp /etc/redeclipse/{servinit-example.cfg,servinit.cfg}
-#
-###########################################################################
-#
 # Copyright 2014 Ricky Thomson
 # Copyright 2013 Erik Falor USA
 # All rights reserved.
@@ -43,7 +23,7 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-VERSION=${VERSION:-r6967}
+VERSION=${VERSION:-svn}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_uf}
 
