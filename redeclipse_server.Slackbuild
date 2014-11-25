@@ -88,7 +88,6 @@ mkdir -p $PKG/etc/{redeclipse,rc.d,cron.d} $PKG/usr/share/doc/
 
 
 install -Dm644 data/config/version.cfg "$PKG/opt/redeclipse/config/version.cfg"
-#install -Dm644 bin/redeclipse_server_native "$PKG/opt/redeclipse/bin/redeclipse_server_native"
 install -Dm644 -g 99 -o redeclipse $CWD/redeclipse/doc/examples/servinit.cfg "$PKG/etc/redeclipse/servinit-example.cfg"
 install -Dm644 doc/man/redeclipse-server.6.am "$PKG/usr/share/doc/redeclipse-server.6.am"
 install -Dm755 redeclipse_server.sh "$PKG/usr/bin/redeclipse_server"
