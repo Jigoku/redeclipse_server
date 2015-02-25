@@ -1,0 +1,8 @@
+#!/bin/sh
+# launcher script for redeclipse_server
+
+REDECLIPSE_PATH=/opt/redeclipse/
+REDECLIPSE_BRANCH="inplace"
+REDECLIPSE_OPTIONS="-h/etc/redeclipse -g/var/log/redeclipse.log"
+
+. /opt/redeclipse/redeclipse_server.sh
