@@ -8,18 +8,18 @@ LOGFILE=/var/log/redeclipse.log
 RUNFILE=/var/run/redeclipse.pid
 
 function redeclipse_start() {
-  if [[ `/sbin/pidof -s redeclipse_server_{native,i686,x86_64}` ]]; then
+  if [[ `/sbin/pidof -s redeclipse_server_linux` ]]; then
     echo "redeclipse_server appears to already be running?"
   else
     touch $LOGFILE
     chown $USER:$GROUP $LOGFILE
     su - $USER -c /usr/bin/redeclipse_server  &
-    sleep 1 && /sbin/pidof redeclipse_server_{native,i686,x86_64} > $RUNFILE
+    sleep 1 && /sbin/pidof redeclipse_server_linux > $RUNFILE
   fi
 }
 
 function redeclipse_stop() {
-  if [[ `/sbin/pidof -s redeclipse_server_{native,i686,x86_64}` ]]; then
+  if [[ `/sbin/pidof -s redeclipse_server_linux` ]]; then
     kill -QUIT $(cat $RUNFILE); rm $RUNFILE;
   else
     echo "redeclipse_server isn't running?"
@@ -29,7 +29,7 @@ function redeclipse_stop() {
 }
 
 function redeclipse_check() {
-  if [[ ! `/sbin/pidof -s redeclipse_server_{native,i686,x86_64}` ]]; then
+  if [[ ! `/sbin/pidof -s redeclipse_server_linux` ]]; then
     /etc/rc.d/rc.redeclipse restart
   fi
 }
