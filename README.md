@@ -1,38 +1,43 @@
-redeclipse_server
+#redeclipse_server
 =================
+Slackbuild script for redeclipse_server
 
-Slackbuild for redeclipse_server (svn)
+This is the slackbuild script i use for deploying a redeclipse server onto a Rasperry Pi box.
 
-This is the slackbuild script i use for deploying redeclipse svn
-onto a Rasperry Pi.
-
-Included are a cron script to keep the server online in the event
-of a crash, and an rc script to manage the server.
+Included are a cron script to keep the server online in the event of a crash, and an /etc/rc.d/ script to manage the server.
 
 Data files are stored in /etc/redeclipse
 Eg; Place your maps into /etc/redeclipse/maps
 
-<pre>
-How to deploy:
+## How to deploy
 
- 1.
- checkout svn version you need, into slackbuild directory, eg;
-   $ svn co svn://svn.icculus.org/redeclipse -r 6967 .
+1. Clone the git branch you want, into the slackbuild directory, eg;
+##### Stable
+```git clone -b stable https://github.com/red-eclipse/base.git base```
+##### Development
+```git clone https://github.com/red-eclipse/base.git base```
+   
+2. create the user redeclipse/nogroup(99)
+```# /usr/sbin/useradd -u 220 -g 99 -d /etc/redeclipse -r redeclipse```
+ 
+3. run the slackbuild
+```# VERSION=dev ./redeclipse_server.Slackbuild```
+ 
+4. install the package
+```# upgradepkg --reinstall /tmp/redeclipse_server-stable-arm-1_uf.tgz```
 
- 2.
- create the user redeclipse/nogroup(99)
-   # /usr/sbin/useradd -u 220 -g 99 -d /etc/redeclipse -r redeclipse
+5. create servinit.cfg (if required)
+```# cp /etc/redeclipse/{servinit-example.cfg,servinit.cfg}```
 
- 3. 
-  # VERSION=r6967 ./redeclipse_server.Slackbuild
+6. enable the service
+```# chmod +x /etc/rc.d/rc.redeclipse_server```
 
- 4.
-   # upgradepkg --reinstall /tmp/redeclipse_server-r6967-arm-1_uf.tgz
+## Managing the server  
+Start the server
+```# /etc/rc.d/rc.redeclipse_server start```
 
- 5. (if required)
-   # cp /etc/redeclipse/{servinit-example.cfg,servinit.cfg}
+Stop the server
+```# /etc/rc.d/rc.redeclipse_server stop```
 
- 6.
-   # chmod +x /etc/rc.d/rc.redeclipse_server
-   # /etc/rc.d/rc.redeclipse_server start
-</pre>
+Check the status of the server
+```# /etc/rc.d/rc.redeclipse_server check```
