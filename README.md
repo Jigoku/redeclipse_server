@@ -41,3 +41,11 @@ Stop the server
 
 Check the status of the server
 ```# /etc/rc.d/rc.redeclipse_server check```
+
+
+## Why does the server keep restarting? 
+You need to run
+```
+chmod -x /etc/rc.d/rc.redeclipse_server
+```
+otherwise cron will think it needs to be restarted.
