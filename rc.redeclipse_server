@@ -30,7 +30,7 @@ function redeclipse_stop() {
 
 function redeclipse_check() {
   if [[ ! `/sbin/pidof -s redeclipse_server_linux` ]]; then
-    /etc/rc.d/rc.redeclipse restart
+    /etc/rc.d/rc.redeclipse_server restart
   fi
 }
 
