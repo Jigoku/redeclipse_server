@@ -64,15 +64,11 @@ else
   LIBDIRSUFFIX=""
 fi
 
-if [ -d $CWD/base ]; then
-  git pull
-fi
-
 set -e
 
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
-cd $CWD/base
+cd $CWD/base && git pull
 
 make -C src INSTDIR=$PKG/opt/redeclipse/bin/arm server install-server
 
@@ -87,8 +83,6 @@ install -Dm755 $CWD/redeclipse_server.cron "$PKG/etc/cron.d/redeclipse_server"
 install -Dm644 $CWD/rc.redeclipse_server "$PKG/etc/rc.d/rc.redeclipse_server"
 
 install -Dm755 $CWD/redeclipse_server "$PKG/usr/bin/redeclipse_server"
-
-sed -i 's,REDECLIPSE_OPTIONS="",REDECLIPSE_OPTIONS="-g/var/log/redeclipse.log",' $PKG/opt/redeclipse/redeclipse.sh
 
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc

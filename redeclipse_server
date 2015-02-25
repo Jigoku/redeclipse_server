@@ -14,7 +14,7 @@ REDECLIPSE_BINARY=redeclipse_server_linux
 REDECLIPSE_BRANCH="inplace"
 
 # additional options for keeping logs
-#REDECLIPSE_OPTIONS="-g/var/log/redeclipse.log" #directly added to redeclipse.sh for now
+REDECLIPSE_OPTIONS="-g/var/log/redeclipse.log"
 
 
 . /opt/redeclipse/redeclipse_server.sh
