@@ -4,10 +4,10 @@ Slackbuild script for redeclipse_server
 
 This is the slackbuild script i use for deploying a redeclipse server onto a Rasperry Pi box running slackware linux.
 
-Included are a cron script to keep the server online in the event of a crash, and an /etc/rc.d/ script to manage the server.
+Included are a cron script to keep the server online in the event of a crash, automatically restarting the server within 1 minute, and an /etc/rc.d/ script to start or stop the service.
 
-Data files are stored in /etc/redeclipse
-Eg; Place your maps into /etc/redeclipse/maps
+- Place your server maps in /etc/redeclipse/maps
+- servinit.cfg should be at /etc/redeclipse/servinit.cfg
 
 ## How to deploy
 
