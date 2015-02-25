@@ -23,6 +23,14 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+# First you need to clone an Red Eclipse 'base'
+#
+# Stable release:
+#  # git clone https://github.com/red-eclipse/base/tree/stable.git redeclipse
+#
+# Development release:
+#  # git clone https://github.com/red-eclipse/base.git redeclipse
+
 VERSION=${VERSION:-svn}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_uf}
@@ -67,7 +75,7 @@ make -C src INSTDIR=$PKG/opt/redeclipse/bin server install-server
 mkdir -p $PKG/etc/{redeclipse,rc.d,cron.d} $PKG/usr/share/doc/
 
 
-install -Dm644 data/config/version.cfg "$PKG/opt/redeclipse/config/version.cfg"
+install -Dm644 config/version.cfg "$PKG/opt/redeclipse/config/version.cfg"
 install -Dm644 -g 99 -o redeclipse $CWD/redeclipse/doc/examples/servinit.cfg "$PKG/etc/redeclipse/servinit-example.cfg"
 install -Dm644 doc/man/redeclipse-server.6.am "$PKG/usr/share/doc/redeclipse-server.6.am"
 install -Dm755 redeclipse_server.sh "$PKG/usr/bin/redeclipse_server"
