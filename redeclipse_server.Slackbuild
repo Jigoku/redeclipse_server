@@ -26,12 +26,12 @@
 # First you need to clone an Red Eclipse 'base'
 #
 # Stable release:
-#  # git clone https://github.com/red-eclipse/base/tree/stable.git redeclipse
+#  # git clone https://github.com/red-eclipse/base/tree/stable.git base
 #
 # Development release:
-#  # git clone https://github.com/red-eclipse/base.git redeclipse
+#  # git clone https://github.com/red-eclipse/base.git base
 
-VERSION=${VERSION:-svn}
+VERSION=${VERSION:-git}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_uf}
 
@@ -64,27 +64,29 @@ else
   LIBDIRSUFFIX=""
 fi
 
+if [ -d $CWD/base ]; then
+  git pull
+fi
+
 set -e
 
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
-cd $CWD/redeclipse
+cd $CWD/base
 
 make -C src INSTDIR=$PKG/opt/redeclipse/bin server install-server
 
 mkdir -p $PKG/etc/{redeclipse,rc.d,cron.d} $PKG/usr/share/doc/
 
-
 install -Dm644 config/version.cfg "$PKG/opt/redeclipse/config/version.cfg"
-install -Dm644 -g 99 -o redeclipse $CWD/redeclipse/doc/examples/servinit.cfg "$PKG/etc/redeclipse/servinit-example.cfg"
+install -Dm644 -g 99 -o redeclipse doc/examples/servinit.cfg "$PKG/etc/redeclipse/servinit-example.cfg"
 install -Dm644 doc/man/redeclipse-server.6.am "$PKG/usr/share/doc/redeclipse-server.6.am"
-install -Dm755 redeclipse_server.sh "$PKG/usr/bin/redeclipse_server"
+install -Dm755 redeclipse_server.sh "$PKG/opt/redeclipse_server.sh"
+install -Dm755 redeclipse.sh "$PKG/opt/redeclipse.sh"
 install -Dm755 $CWD/redeclipse_server.cron "$PKG/etc/cron.d/redeclipse_server"
 install -Dm644 $CWD/rc.redeclipse_server "$PKG/etc/rc.d/rc.redeclipse_server"
 
-sed -i 's,APP_OPTIONS="",APP_OPTIONS="-h/etc/redeclipse -g/var/log/redeclipse.log",' $PKG/usr/bin/redeclipse_server
-sed -i 's,APP_OPTIONS="",APP_OPTIONS="-h/etc/redeclipse -g/var/log/redeclipse.log",' $PKG/usr/bin/redeclipse_server
-sed -i 's,APP_PATH="$(cd "$(dirname "$0")" && pwd)",APP_PATH="/opt/redeclipse",' $PKG/usr/bin/redeclipse_server
+install -Dm755 $CWD/redeclipse "$PKG/usr/bin/redeclipse_server"
 
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
