@@ -14,7 +14,7 @@ redeclipse: lends itself toward a balanced gameplay, completely at the control
 redeclipse: of map makers, while maintaining a general theme of agility in a
 redeclipse: variety of environments.
 redeclipse: 
-redeclipse: This package builds just the server from an svn checkout.
+redeclipse: This package builds just the server from git.
 redeclipse:
 redeclipse: homepage: http://www.redeclipse.net
 
