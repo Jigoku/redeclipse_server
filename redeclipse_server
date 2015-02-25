@@ -8,7 +8,7 @@ REDECLIPSE_PATH=/opt/redeclipse/
 REDECLIPSE_HOME=/etc/redeclipse/
 
 # name of the binary in $REDECLIPSE_PATH to run
-REDECLIPSE_BINARY=redeclipse_server_native
+REDECLIPSE_BINARY=redeclipse_server_linux
 
 # disable auto updating
 REDECLIPSE_BRANCH="inplace"

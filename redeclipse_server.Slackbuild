@@ -74,7 +74,7 @@ rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $CWD/base
 
-make -C src INSTDIR=$PKG/opt/redeclipse/bin server install-server
+make -C src INSTDIR=$PKG/opt/redeclipse/bin/arm server install-server
 
 mkdir -p $PKG/etc/{redeclipse,rc.d,cron.d} $PKG/usr/share/doc/
 
