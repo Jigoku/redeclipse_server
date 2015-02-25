@@ -88,6 +88,8 @@ install -Dm644 $CWD/rc.redeclipse_server "$PKG/etc/rc.d/rc.redeclipse_server"
 
 install -Dm755 $CWD/redeclipse_server "$PKG/usr/bin/redeclipse_server"
 
+sed -i 's,REDECLIPSE_OPTIONS="",REDECLIPSE_OPTIONS="-g/var/log/redeclipse.log",' $PKG/opt/redeclipse/redeclipse.sh
+
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
 
