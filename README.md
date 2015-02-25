@@ -2,7 +2,7 @@
 =================
 Slackbuild script for redeclipse_server
 
-This is the slackbuild script i use for deploying a redeclipse server onto a Rasperry Pi box.
+This is the slackbuild script i use for deploying a redeclipse server onto a Rasperry Pi box running slackware linux.
 
 Included are a cron script to keep the server online in the event of a crash, and an /etc/rc.d/ script to manage the server.
 
