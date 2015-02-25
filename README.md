@@ -21,10 +21,10 @@ Included are a cron script to keep the server online in the event of a crash, au
 ```# /usr/sbin/useradd -u 220 -g 99 -d /etc/redeclipse -r redeclipse```
  
 3. run the slackbuild
-```# VERSION=dev ./redeclipse_server.Slackbuild```
+```# VERSION=git ./redeclipse_server.Slackbuild```
  
 4. install the package
-```# upgradepkg --reinstall /tmp/redeclipse_server-stable-arm-1_uf.tgz```
+```# upgradepkg --reinstall /tmp/redeclipse_server-git-arm-1_uf.tgz```
 
 5. create servinit.cfg (if required)
 ```# cp /etc/redeclipse/{servinit-example.cfg,servinit.cfg}```
