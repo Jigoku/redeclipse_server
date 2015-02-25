@@ -39,7 +39,7 @@ Start the server
 Stop the server
 ```# /etc/rc.d/rc.redeclipse_server stop```
 
-Check the status of the server
+Check if the server needs to be restarted
 ```# /etc/rc.d/rc.redeclipse_server check```
 
 
