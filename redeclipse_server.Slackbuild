@@ -68,14 +68,17 @@ set -e
 
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
+
 cd $CWD/base && git pull
+echo git\ =\ \"$(git log -n1 | head -n 1 | cut -c 8-14)\" > $CWD/build.cfg
 
 make -C src INSTDIR=$PKG/opt/redeclipse/bin/arm server install-server
 
 mkdir -p $PKG/etc/{redeclipse,rc.d,cron.d} $PKG/usr/share/doc/
 
-install -Dm644 config/version.cfg "$PKG/opt/redeclipse/config/version.cfg"
-install -Dm644 -g 99 -o redeclipse doc/examples/servinit.cfg "$PKG/etc/redeclipse/servinit-example.cfg"
+install -Dm644 $CWD/build.cfg  "$PKG/etc/redeclipse/build.cfg" -g nogroup -o redeclipse
+install -Dm644 config/version.cfg "$PKG/opt/redeclipse/config/version.cfg" -g nogroup -o redeclipse
+install -Dm644 -g 99 -o redeclipse doc/examples/servinit.cfg "$PKG/etc/redeclipse/servinit-example.cfg" -g nogroup -o redeclipse
 install -Dm644 doc/man/redeclipse-server.6.am "$PKG/usr/share/doc/redeclipse-server.6.am"
 install -Dm755 redeclipse_server.sh "$PKG/opt/redeclipse/redeclipse_server.sh"
 install -Dm755 redeclipse.sh "$PKG/opt/redeclipse/redeclipse.sh"
@@ -83,6 +86,8 @@ install -Dm755 $CWD/redeclipse_server.cron "$PKG/etc/cron.d/redeclipse_server"
 install -Dm644 $CWD/rc.redeclipse_server "$PKG/etc/rc.d/rc.redeclipse_server"
 
 install -Dm755 $CWD/redeclipse_server "$PKG/usr/bin/redeclipse_server"
+
+
 
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
