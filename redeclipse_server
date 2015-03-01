@@ -1,5 +1,5 @@
 #!/bin/sh
-# launcher script for redeclipse_server
+# wrapper script for redeclipse_server
 
 # location of binaries/data files
 REDECLIPSE_PATH=/opt/redeclipse/
@@ -7,7 +7,7 @@ REDECLIPSE_PATH=/opt/redeclipse/
 # location of maps/ and servinit.cfg
 REDECLIPSE_HOME=/etc/redeclipse/
 
-# name of the binary in $REDECLIPSE_PATH to run
+# name of the binary in $REDECLIPSE_PATH/bin/*/
 REDECLIPSE_BINARY=redeclipse_server_linux
 
 # disable auto updating
@@ -16,5 +16,5 @@ REDECLIPSE_BRANCH="inplace"
 # additional options for keeping logs
 REDECLIPSE_OPTIONS="-g/var/log/redeclipse.log"
 
-
+# run the server
 . /opt/redeclipse/redeclipse_server.sh
