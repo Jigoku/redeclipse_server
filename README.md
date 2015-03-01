@@ -1,5 +1,5 @@
 #redeclipse_server
-=================
+
 Creates a slackware package for redeclipse (standalone server).
 
 ## What does it do?
