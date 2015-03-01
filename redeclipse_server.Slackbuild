@@ -26,7 +26,7 @@
 # First you need to clone an Red Eclipse 'base'
 #
 # Stable release:
-#  # git clone https://github.com/red-eclipse/base/tree/stable.git base
+#  # git clone -b stable https://github.com/red-eclipse/base.git base
 #
 # Development release:
 #  # git clone https://github.com/red-eclipse/base.git base
